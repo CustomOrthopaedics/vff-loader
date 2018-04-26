@@ -1,0 +1,30 @@
+{
+  "name": "vff-loader",
+  "version": "1.0.0",
+  "description": "three.js VFF loader",
+  "homepage": "https://github.com/CustomOrthopaedics/vff-loader",
+  "repository": "https://github.com/CustomOrthopaedics/vff-loader",
+  "bugs": "https://github.com/CustomOrthopaedics/vff-loader/issues",
+  "main": "VFFLoader.js",
+  "scripts": {
+    "jest": "jest",
+    "eslint": "eslint .",
+    "test": "npm run eslint && npm run jest"
+  },
+  "dependencies": {
+    "babel-core": "^6.26.2",
+    "babel-preset-env": "^1.6.1",
+    "eslint": "^4.19.1",
+    "three": "^0.92.0"
+  },
+  "devDependencies": {
+    "babel-jest": "^22.4.3",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.11.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.7.0",
+    "jest": "^22.4.3"
+  },
+  "author": "Dan Kaplun <dbkaplun@gmail.com>",
+  "license": "MIT"
+}
