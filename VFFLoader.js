@@ -97,7 +97,8 @@ class VFFLoader {
       throw new Error('Byte start index for processing voxel data in VFF file could not be determined. Please verify size/format of VFF file.');
     }
 
-    const geometry = this.parseVoxelData(byteArray, startByteIndexCalc, headerData); // return geometry (only vertices)
+    // return geometry (only vertices)
+    const geometry = this.parseVoxelData(byteArray, startByteIndexCalc, headerData);
 
     return geometry;
   }
@@ -128,7 +129,13 @@ class VFFLoader {
           const colorString = `rgb(${voxelGreyscaleValue}, ${voxelGreyscaleValue}, ${voxelGreyscaleValue})`;
           const index = i - startByteIndex; // linear byte index difference
 
-          const vertex = this.constructor.idxToVector(index, bytesPerLine, linesPerSlice, slices, spacingArray);
+          const vertex = this.constructor.idxToVector(
+            index,
+            bytesPerLine,
+            linesPerSlice,
+            slices,
+            spacingArray,
+          );
 
           geometry.vertices.push(vertex);
           geometry.colors.push(new Color(colorString));
@@ -157,7 +164,12 @@ class VFFLoader {
         if (voxelGreyscaleValue !== 0) {
           const index = i - startByteIndex; // linear byte index difference
 
-          const vertex = this.constructor.idxToVector(index, bytesPerLine, linesPerSlice, spacingArray);
+          const vertex = this.constructor.idxToVector(
+            index,
+            bytesPerLine,
+            linesPerSlice,
+            spacingArray,
+          );
 
           positions[bufferIndex] = vertex.x;
           positions[bufferIndex + 1] = vertex.y;
@@ -177,7 +189,8 @@ class VFFLoader {
       geometry.addAttribute('color', new BufferAttribute(colors, 3));
     }
 
-    // geometry.scale(spacingX, spacingY, spacingZ); // slower than calculating coordinates by providing spacingArray to coordFromLinearIndex
+    // slower than calculating coordinates by providing spacingArray to coordFromLinearIndex
+    // geometry.scale(spacingX, spacingY, spacingZ);
 
     // var end = performance.now();
     // var time = end - start;
