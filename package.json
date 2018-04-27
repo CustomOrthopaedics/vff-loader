@@ -5,8 +5,9 @@
   "homepage": "https://github.com/CustomOrthopaedics/vff-loader",
   "repository": "https://github.com/CustomOrthopaedics/vff-loader",
   "bugs": "https://github.com/CustomOrthopaedics/vff-loader/issues",
-  "main": "VFFLoader.js",
+  "main": "lib/VFFLoader.js",
   "scripts": {
+    "build": "babel -d lib/ src/",
     "jest": "jest",
     "eslint": "eslint .",
     "test": "npm run eslint && npm run jest"
@@ -15,9 +16,11 @@
     "three": "^0.92.0"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.26.2",
     "babel-jest": "^22.4.3",
     "babel-preset-env": "^1.6.1",
+    "babel-preset-stage-0": "^6.24.1",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.11.0",

@@ -4,7 +4,7 @@ import { promisify } from 'util';
 
 import * as THREE from 'three';
 
-import VFFLoader from '..';
+import VFFLoader from '../src/VFFLoader';
 
 const readFileAsync = promisify(fs.readFile);
 async function fixture(name, ...args) {
