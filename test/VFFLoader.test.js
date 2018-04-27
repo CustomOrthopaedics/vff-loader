@@ -3,6 +3,7 @@ import path from 'path';
 import { promisify } from 'util';
 
 import * as THREE from 'three';
+import 'three/examples/js/exporters/PLYExporter'; // exports THREE.PLYExporter
 
 import VFFLoader from '../src/VFFLoader';
 
@@ -23,5 +24,10 @@ describe('VFFLoader', () => {
     const geom = loader.parse(await fixture('airway.vff'));
     expect(geom).toBeInstanceOf(THREE.Geometry);
     expect(geom.vertices).toHaveLength(36785);
+
+    const exportBufGeom = new THREE.BufferGeometry().setFromObject(new THREE.Points(geom));
+    const exportMesh = new THREE.Mesh(exportBufGeom);
+    expect(new THREE.PLYExporter().parse(exportMesh))
+      .toEqual(await fixture('airway.vff.ply', 'utf8'));
   });
 });
