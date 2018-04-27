@@ -28,6 +28,11 @@
     "eslint-plugin-react": "^7.7.0",
     "jest": "^22.4.3"
   },
+  "jest": {
+    "moduleNameMapper": {
+      "^three/examples/js/.*$": "<rootDir>/test/__mocks__/threejs-examples.js"
+    }
+  },
   "author": "Dan Kaplun <dbkaplun@gmail.com>",
   "license": "MIT"
 }
