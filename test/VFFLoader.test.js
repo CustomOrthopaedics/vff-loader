@@ -4,6 +4,7 @@ import { promisify } from 'util';
 
 import * as THREE from 'three';
 import 'three/examples/js/exporters/PLYExporter'; // exports THREE.PLYExporter
+import 'three/examples/js/loaders/PLYLoader'; // exports THREE.PLYLoader
 
 import VFFLoader from '../src/VFFLoader';
 
@@ -27,7 +28,12 @@ describe('VFFLoader', () => {
 
     const exportBufGeom = new THREE.BufferGeometry().setFromObject(new THREE.Points(geom));
     const exportMesh = new THREE.Mesh(exportBufGeom);
+    const plyData = await fixture('airway.vff.ply');
     expect(new THREE.PLYExporter().parse(exportMesh))
-      .toEqual(await fixture('airway.vff.ply', 'utf8'));
+      .toEqual(plyData.toString('utf8'));
+
+    const plyGeom = new THREE.PLYLoader().parse(plyData);
+    expect(plyGeom.getAttribute('position').count)
+      .toEqual(geom.vertices.length);
   });
 });
