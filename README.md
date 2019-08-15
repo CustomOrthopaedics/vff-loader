@@ -1,17 +1,17 @@
-# vff-loader [![Build Status](https://travis-ci.org/CustomOrthopaedics/vff-loader.svg?branch=master)](https://travis-ci.org/CustomOrthopaedics/vff-loader)
+# three-vff-loader [![Build Status](https://travis-ci.org/CustomOrthopaedics/vff-loader.svg?branch=master)](https://travis-ci.org/CustomOrthopaedics/vff-loader)
 three.js VFF loader
 
 ## Installation
 
 ```sh
-npm install vff-loader
+npm install three-vff-loader
 ```
 
 ## Usage
 
 ```js
 import * as THREE from 'three';
-import VFFLoader from 'vff-loader';
+import VFFLoader from 'three-vff-loader';
 
 const loader = new VFFLoader();
 const geom = loader.parse(vffData);
