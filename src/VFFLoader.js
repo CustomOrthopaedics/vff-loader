@@ -168,6 +168,7 @@ class VFFLoader {
             index,
             bytesPerLine,
             linesPerSlice,
+            slices,
             spacingArray,
           );
 
