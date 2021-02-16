@@ -22,6 +22,11 @@ describe('VFFLoader', () => {
 
     const geom = loader.parse(await fixture('airway.vff'));
     expect(geom).toBeInstanceOf(THREE.BufferGeometry);
-    expect(geom.getAttribute('position').count).toBe(36785);
+
+    const positions = geom.getAttribute('position');
+    expect(positions.count).toBe(36785);
+    expect(positions.getX(0)).toBeCloseTo(47.26559829711914);
+    expect(positions.getY(0)).toBeCloseTo(-194.0992431640625);
+    expect(positions.getZ(0)).toBeCloseTo(217.64161682128906);
   });
 });
