@@ -1,6 +1,6 @@
 {
   "name": "three-vff-loader",
-  "version": "3.0.0",
+  "version": "4.0.1",
   "description": "three.js VFF loader",
   "homepage": "https://github.com/CustomOrthopaedics/vff-loader",
   "repository": "https://github.com/CustomOrthopaedics/vff-loader",
@@ -17,7 +17,7 @@
     "regenerator-runtime": "^0.13.7"
   },
   "peerDependencies": {
-    "three": "^0.124.0"
+    "three": ">= 0.125.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
@@ -29,7 +29,7 @@
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.22.1",
     "jest": "^26.6.3",
-    "three": "^0.124.0"
+    "three": "^0.125.2"
   },
   "author": "Dan Kaplun <dbkaplun@gmail.com>",
   "license": "MIT"
