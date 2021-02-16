@@ -115,6 +115,8 @@ class VFFLoader {
     const spacingArray = [spacingX, spacingY, spacingZ];
     // var spacingArray = [1, 1, 1];
 
+    const origin = new Vector3(...headerData.origin.split(' ').map(Number));
+
     const geometry = new BufferGeometry();
 
     // need to define size of position and color buffers at initialization
@@ -145,9 +147,9 @@ class VFFLoader {
           spacingArray,
         );
 
-        positions[bufferIndex] = vertex.x;
-        positions[bufferIndex + 1] = vertex.y;
-        positions[bufferIndex + 2] = vertex.z;
+        positions[bufferIndex] = vertex.x + origin.x;
+        positions[bufferIndex + 1] = vertex.y + origin.y;
+        positions[bufferIndex + 2] = vertex.z + origin.z;
 
         const colorValue = voxelGreyscaleValue / 255;
 
