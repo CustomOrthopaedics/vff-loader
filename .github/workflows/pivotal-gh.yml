@@ -1,0 +1,28 @@
+name: Pivotal-GH
+
+on:
+  workflow_dispatch:
+  create:
+  pull_request:
+    types: [opened, reopened, closed]
+
+jobs:
+  pivotal-gh:
+    name: Update Pivotal Story Status
+    if: github.actor != 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: Checkout pivotal-gh-actions repo # required for using action in private repo
+        uses: actions/checkout@v2
+        with:
+          repository: CustomOrthopaedics/pivotal-gh-actions
+          ref: v0.2.0
+          token: ${{ secrets.GH_REPO_TOKEN }}
+          path: .github/actions/pivotal-gh-actions
+      - name: Run pivotal-gh-actions Action
+        uses: ./.github/actions/pivotal-gh-actions
+        with:
+          pivotal-token: ${{ secrets.PIVOTAL_TOKEN }}
+          project-id: ${{ secrets.PIVOTAL_PROJECT_ID }}
