@@ -2,16 +2,13 @@ import {
   DefaultLoadingManager,
   FileLoader,
   Vector3,
-  Geometry,
-  Color,
   BufferGeometry,
   BufferAttribute,
 } from 'three';
 
 class VFFLoader {
-  constructor(useBufferGeom, manager) {
+  constructor(manager) {
     this.manager = (manager !== undefined) ? manager : DefaultLoadingManager;
-    this.buffer = useBufferGeom; // use buffer geometry?
     this.loader = new FileLoader(this.manager);
   }
 
@@ -118,77 +115,52 @@ class VFFLoader {
     const spacingArray = [spacingX, spacingY, spacingZ];
     // var spacingArray = [1, 1, 1];
 
-    let geometry;
-    if (!this.buffer) {
-      geometry = new Geometry();
+    const geometry = new BufferGeometry();
 
-      // get 3D coordinates from linear byte index (see http://stackoverflow.com/questions/10903149/how-do-i-compute-the-linear-index-of-a-3d-coordinate-and-vice-versa)
-      for (let i = startByteIndex; i < byteArray.length; i += 1) {
-        const voxelGreyscaleValue = byteArray[i];
-        if (voxelGreyscaleValue !== 0) {
-          const colorString = `rgb(${voxelGreyscaleValue}, ${voxelGreyscaleValue}, ${voxelGreyscaleValue})`;
-          const index = i - startByteIndex; // linear byte index difference
-
-          const vertex = this.constructor.idxToVector(
-            index,
-            bytesPerLine,
-            linesPerSlice,
-            slices,
-            spacingArray,
-          );
-
-          geometry.vertices.push(vertex);
-          geometry.colors.push(new Color(colorString));
-        }
+    // need to define size of position and color buffers at initialization
+    let bufferSize = 0; // num of voxels with value > 0
+    for (let i = startByteIndex; i < byteArray.length; i += 1) {
+      const voxelGreyscaleValue = byteArray[i];
+      if (voxelGreyscaleValue !== 0) {
+        bufferSize += 1;
       }
-    } else {
-      geometry = new BufferGeometry();
-
-      // need to define size of position and color buffers at initialization
-      let bufferSize = 0; // num of voxels with value > 0
-      for (let i = startByteIndex; i < byteArray.length; i += 1) {
-        const voxelGreyscaleValue = byteArray[i];
-        if (voxelGreyscaleValue !== 0) {
-          bufferSize += 1;
-        }
-      }
-
-      const positions = new Float32Array(bufferSize * 3);
-      const colors = new Float32Array(bufferSize * 3);
-
-      let bufferIndex = 0;
-
-      // get 3D coordinates from linear byte index (see http://stackoverflow.com/questions/10903149/how-do-i-compute-the-linear-index-of-a-3d-coordinate-and-vice-versa)
-      for (let i = startByteIndex; i < byteArray.length; i += 1) {
-        const voxelGreyscaleValue = byteArray[i];
-        if (voxelGreyscaleValue !== 0) {
-          const index = i - startByteIndex; // linear byte index difference
-
-          const vertex = this.constructor.idxToVector(
-            index,
-            bytesPerLine,
-            linesPerSlice,
-            slices,
-            spacingArray,
-          );
-
-          positions[bufferIndex] = vertex.x;
-          positions[bufferIndex + 1] = vertex.y;
-          positions[bufferIndex + 2] = vertex.z;
-
-          const colorValue = voxelGreyscaleValue / 255;
-
-          colors[bufferIndex] = colorValue;
-          colors[bufferIndex + 1] = colorValue;
-          colors[bufferIndex + 2] = colorValue;
-
-          bufferIndex += 3;
-        }
-      }
-
-      geometry.addAttribute('position', new BufferAttribute(positions, 3));
-      geometry.addAttribute('color', new BufferAttribute(colors, 3));
     }
+
+    const positions = new Float32Array(bufferSize * 3);
+    const colors = new Float32Array(bufferSize * 3);
+
+    let bufferIndex = 0;
+
+    // get 3D coordinates from linear byte index (see http://stackoverflow.com/questions/10903149/how-do-i-compute-the-linear-index-of-a-3d-coordinate-and-vice-versa)
+    for (let i = startByteIndex; i < byteArray.length; i += 1) {
+      const voxelGreyscaleValue = byteArray[i];
+      if (voxelGreyscaleValue !== 0) {
+        const index = i - startByteIndex; // linear byte index difference
+
+        const vertex = this.constructor.idxToVector(
+          index,
+          bytesPerLine,
+          linesPerSlice,
+          slices,
+          spacingArray,
+        );
+
+        positions[bufferIndex] = vertex.x;
+        positions[bufferIndex + 1] = vertex.y;
+        positions[bufferIndex + 2] = vertex.z;
+
+        const colorValue = voxelGreyscaleValue / 255;
+
+        colors[bufferIndex] = colorValue;
+        colors[bufferIndex + 1] = colorValue;
+        colors[bufferIndex + 2] = colorValue;
+
+        bufferIndex += 3;
+      }
+    }
+
+    geometry.setAttribute('position', new BufferAttribute(positions, 3));
+    geometry.setAttribute('color', new BufferAttribute(colors, 3));
 
     // slower than calculating coordinates by providing spacingArray to coordFromLinearIndex
     // geometry.scale(spacingX, spacingY, spacingZ);

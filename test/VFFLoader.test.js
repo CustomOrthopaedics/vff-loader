@@ -21,7 +21,7 @@ describe('VFFLoader', () => {
     const loader = new VFFLoader();
 
     const geom = loader.parse(await fixture('airway.vff'));
-    expect(geom).toBeInstanceOf(THREE.Geometry);
-    expect(geom.vertices).toHaveLength(36785);
+    expect(geom).toBeInstanceOf(THREE.BufferGeometry);
+    expect(geom.getAttribute('position').count).toBe(36785);
   });
 });
